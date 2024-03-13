@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: ${NODE_ENV}
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: npm run start:dev
+    ports:
+      - 3030:3030
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: songs_DB
+    depends_on:
+      - db
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: songs_DB
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:
