@@ -26,7 +26,7 @@ export default function SongTable({ songs }: Props) {
 
     return (
         <TableContainer component={Paper} className="table-container">
-            <Table sx={{ minWidth: 650 }} aria-label="simple table" >
+            <Table stickyHeader sx={{ minWidth: 400 }} aria-label="simple table" >
                 <TableHead>
                     <TableRow>
                         {headers.map((header, idx) => {

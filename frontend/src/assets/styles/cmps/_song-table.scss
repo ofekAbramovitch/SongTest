@@ -1,3 +1,23 @@
 .table-container {
-    
+    height: 85vh;
+
+    thead {
+        th {
+            background-color: var(--brand-clr);
+            font-family: montserrat-semibold;
+            font-size: 1.3rem;
+        }
+
+    }
+
+    tr:nth-of-type(odd):not(thead tr) {
+        background-color: rgb(250, 247, 247);
+    }
+
+    td {
+        font-family: montserrat-medium;
+        font-size: 1rem;
+    }
+
+
 }
