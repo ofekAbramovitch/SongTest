@@ -25,15 +25,13 @@ export default function SongTable({ songs }: Props) {
                     song.year.toString().includes(filterBy.txt)
             })
         }
-
-        console.log(filteredSongs.length)
-
         setFilteredSongs(filteredSongs)
     }, [songs, filterBy.txt])
 
     function handleSort(prop: keyof ISong) {
         const isAsc = orderBy === prop && order === 'asc'
         setOrder(isAsc ? 'desc' : 'asc')
+        setOrderBy(prop)
 
         setFilteredSongs([...filteredSongs].sort((a, b) => {
             if (isAsc) {
@@ -42,8 +40,6 @@ export default function SongTable({ songs }: Props) {
                 return a[prop].toString().localeCompare(b[prop].toString())
             }
         }))
-
-        setOrderBy(prop)
     }
 
     return (
@@ -73,6 +69,6 @@ export default function SongTable({ songs }: Props) {
                     </TableRow>)}
                 </TableBody>
             </Table>
-        </TableContainer >
+        </TableContainer>
     )
 }
