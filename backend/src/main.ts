@@ -2,7 +2,6 @@ import { NestFactory } from '@nestjs/core'
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface'
 import { config } from 'dotenv'
 import { AppModule } from './app.module'
-import path from 'path'
 
 config()
 
@@ -16,7 +15,7 @@ async function bootstrap() {
 		}
 		app.enableCors(corsOptions)
 	}
-	
+
 	await app.listen(process.env.PORT || 3030)
 }
 
