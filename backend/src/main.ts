@@ -1,9 +1,7 @@
+require('dotenv').config()
 import { NestFactory } from '@nestjs/core'
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface'
-import { config } from 'dotenv'
 import { AppModule } from './app.module'
-
-config()
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule)
