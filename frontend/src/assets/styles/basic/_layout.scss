@@ -1,0 +1,9 @@
+.main-layout {
+    --layout-padding: 5rem;
+    display: grid;
+    grid-template-columns: var(--layout-padding) 1fr var(--layout-padding);
+
+    >* {
+        grid-column: 2;
+    }
+}
