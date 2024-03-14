@@ -11,7 +11,6 @@ type Dispatch = ThunkDispatch<RootState, undefined, Action>
 export default function SongIndex() {
 	const dispatch: Dispatch = useDispatch()
 	const songs = useSelector((storeState: RootState) => storeState.songs.songs)
-	const isLoading = useSelector((storeState: RootState) => storeState.songs.isLoading)
 
 	useEffect(() => {
 		dispatch(getSongs())
@@ -19,9 +18,8 @@ export default function SongIndex() {
 
 	return (
 		<main className="song-index main-layout">
-			{!isLoading && <SongFilter />}
+			<SongFilter />
 			{songs.length !== 0 && <SongTable songs={songs} />}
-			{!songs.length && !isLoading && <h2>No Songs Found</h2>}
 		</main>
 	)
 }

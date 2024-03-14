@@ -4,9 +4,7 @@ import { songService } from "../../services/song.service"
 
 const initialState = {
 	songs: [] as ISong[],
-	filterBy: { txt: '' },
-	isLoading: false,
-	error: false
+	filterBy: { txt: '' }
 }
 
 export const getSongs = createAsyncThunk('songs', async () => {
@@ -28,18 +26,12 @@ const songsSlice = createSlice({
 	extraReducers: (builder) => {
 		builder.addCase(getSongs.fulfilled, (state, action) => {
 			state.songs = action.payload
-			state.isLoading = false
-			state.error = false
 		})
 			.addCase(getSongs.pending, (state) => {
 				state.songs = []
-				state.isLoading = true
-				state.error = false
 			})
 			.addCase(getSongs.rejected, (state) => {
 				state.songs = []
-				state.isLoading = false
-				state.error = true
 			})
 	}
 })

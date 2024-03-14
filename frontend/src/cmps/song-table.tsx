@@ -1,7 +1,7 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { RootState } from "../store/store"
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material"
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel } from "@mui/material"
 import { ISong } from "../interfaces/song-interface"
 
 interface Props {
@@ -11,6 +11,9 @@ interface Props {
 export default function SongTable({ songs }: Props) {
     const filterBy = useSelector((storeState: RootState) => storeState.songs.filterBy)
     const headers = Object.keys(songs[0]).filter(header => header !== "id")
+    const [filteredSongs, setFilteredSongs] = useState<ISong[]>([...songs])
+    const [order, setOrder] = useState<'asc' | 'desc'>('asc')
+    const [orderBy, setOrderBy] = useState<keyof ISong>('band')
 
     useEffect(() => {
         let filteredSongs = [...songs]
@@ -22,7 +25,26 @@ export default function SongTable({ songs }: Props) {
                     song.year.toString().includes(filterBy.txt)
             })
         }
+
+        console.log(filteredSongs.length)
+
+        setFilteredSongs(filteredSongs)
     }, [songs, filterBy.txt])
+
+    function handleSort(prop: keyof ISong) {
+        const isAsc = orderBy === prop && order === 'asc'
+        setOrder(isAsc ? 'desc' : 'asc')
+
+        setFilteredSongs([...filteredSongs].sort((a, b) => {
+            if (isAsc) {
+                return b[prop].toString().localeCompare(a[prop].toString())
+            } else {
+                return a[prop].toString().localeCompare(b[prop].toString())
+            }
+        }))
+
+        setOrderBy(prop)
+    }
 
     return (
         <TableContainer component={Paper} className="table-container">
@@ -31,13 +53,20 @@ export default function SongTable({ songs }: Props) {
                     <TableRow>
                         {headers.map((header, idx) => {
                             return <TableCell key={idx}>
-                                {header === 'songName' ? 'Song Name' : header.charAt(0).toUpperCase() + header.slice(1)}
+                                <TableSortLabel active={orderBy === header}
+                                    direction={orderBy === header ? order : 'asc'}
+                                    onClick={() => handleSort(header as keyof ISong)}
+                                >
+                                    {header === 'songName' ? 'Song Name' :
+                                        header.charAt(0).toUpperCase() + header.slice(1)}
+                                </TableSortLabel>
                             </TableCell>
                         })}
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {songs.map(song => <TableRow key={song.id}>
+                    {!filteredSongs.length && <h2>No Songs Found</h2>}
+                    {filteredSongs.map(song => <TableRow key={song.id}>
                         <TableCell>{song.songName}</TableCell>
                         <TableCell>{song.band}</TableCell>
                         <TableCell>{song.year}</TableCell>
