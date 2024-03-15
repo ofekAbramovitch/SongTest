@@ -11,4 +11,4 @@ This program allows users to delete, filter and sort songs by any property in th
 - **Frontend**: React, Typescript, Redux, SCSS, MUI.
 - **Backend**: Node.js with NestJS, Typescript.
 - **Database**: PostgreSQL.
-- Docker & Docker-Compose
+- **Docker & Docker-Compose**
