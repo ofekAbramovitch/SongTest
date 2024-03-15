@@ -18,7 +18,6 @@ export default function SongIndex() {
 
 	return (
 		<main className="song-index main-layout">
-			<SongFilter />
 			{songs.length !== 0 && <SongTable songs={songs} />}
 		</main>
 	)

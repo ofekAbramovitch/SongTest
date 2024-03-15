@@ -43,4 +43,12 @@ export class SongService {
 			console.error('Couldn\'t get songs: ', err)
 		}
 	}
+
+	async deleteSong(id: number): Promise<void> {
+		try {
+			await this.songRepo.delete(id)
+		} catch (err) {
+			console.error('Couldn\'t delete song: ', err)
+		}
+	}
 }

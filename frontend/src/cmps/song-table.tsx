@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../store/store"
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel } from "@mui/material"
+import { Checkbox, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel } from "@mui/material"
+import DeleteIcon from '@mui/icons-material/Delete'
 import { ISong } from "../interfaces/song-interface"
+import { deleteSong } from "../store/song/song.slice"
+import SongFilter from "./song-filter"
+import { AppDispatch } from "../store/store"
 
 interface Props {
     songs: ISong[]
@@ -14,6 +18,8 @@ export default function SongTable({ songs }: Props) {
     const [filteredSongs, setFilteredSongs] = useState<ISong[]>([...songs])
     const [order, setOrder] = useState<'asc' | 'desc'>('asc')
     const [orderBy, setOrderBy] = useState<keyof ISong>('band')
+    const [selectedSong, setSelectedSong] = useState<number | null>(null)
+    const dispatch = useDispatch<AppDispatch>()
 
     useEffect(() => {
         let filteredSongs = [...songs]
@@ -42,33 +48,57 @@ export default function SongTable({ songs }: Props) {
         }))
     }
 
+    async function onDelete() {
+        if (selectedSong) {
+            dispatch(deleteSong(selectedSong))
+            setSelectedSong(null)
+        }
+    }
+
     return (
-        <TableContainer component={Paper} className="table-container">
-            <Table stickyHeader sx={{ minWidth: 400 }} aria-label="simple table" >
-                <TableHead>
-                    <TableRow>
-                        {headers.map((header, idx) => {
-                            return <TableCell key={idx}>
-                                <TableSortLabel active={orderBy === header}
-                                    direction={orderBy === header ? order : 'asc'}
-                                    onClick={() => handleSort(header as keyof ISong)}
-                                >
-                                    {header === 'songName' ? 'Song Name' :
-                                        header.charAt(0).toUpperCase() + header.slice(1)}
-                                </TableSortLabel>
+        <>
+            <section className="action-bar">
+                <SongFilter />
+                {selectedSong && (
+                    <IconButton className="delete-btn" onClick={onDelete}>
+                        <DeleteIcon />
+                    </IconButton>
+                )}
+            </section>
+            <TableContainer component={Paper} className="table-container">
+                <Table stickyHeader sx={{ minWidth: 400 }} aria-label="simple table" >
+                    <TableHead>
+                        <TableRow>
+                            <TableCell />
+                            {headers.map((header, idx) => {
+                                return <TableCell key={idx}>
+                                    <TableSortLabel active={orderBy === header}
+                                        direction={orderBy === header ? order : 'asc'}
+                                        onClick={() => handleSort(header as keyof ISong)}
+                                    >
+                                        {header === 'songName' ? 'Song Name' :
+                                            header.charAt(0).toUpperCase() + header.slice(1)}
+                                    </TableSortLabel>
+                                </TableCell>
+                            })}
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {!filteredSongs.length && <h2>No Songs Found</h2>}
+                        {filteredSongs.map(song => <TableRow key={song.id}>
+                            <TableCell className="checkbox">
+                                <Checkbox checked={selectedSong === song.id}
+                                    onChange={() => setSelectedSong(prev => (
+                                        prev === song.id ? null : song.id
+                                    ))} />
                             </TableCell>
-                        })}
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {!filteredSongs.length && <h2>No Songs Found</h2>}
-                    {filteredSongs.map(song => <TableRow key={song.id}>
-                        <TableCell>{song.songName}</TableCell>
-                        <TableCell>{song.band}</TableCell>
-                        <TableCell>{song.year}</TableCell>
-                    </TableRow>)}
-                </TableBody>
-            </Table>
-        </TableContainer>
+                            <TableCell>{song.songName}</TableCell>
+                            <TableCell>{song.band}</TableCell>
+                            <TableCell>{song.year}</TableCell>
+                        </TableRow>)}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </>
     )
 }

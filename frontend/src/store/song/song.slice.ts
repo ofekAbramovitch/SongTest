@@ -15,6 +15,15 @@ export const getSongs = createAsyncThunk('songs', async () => {
 	}
 })
 
+export const deleteSong = createAsyncThunk('songs/delete', async (id: number) => {
+	try {
+		await songService.deleteSong(id)
+		return id
+	} catch (err: any) {
+		throw new Error('Failed to delete song', err)
+	}
+})
+
 const songsSlice = createSlice({
 	name: 'songs',
 	initialState,
@@ -32,6 +41,10 @@ const songsSlice = createSlice({
 			})
 			.addCase(getSongs.rejected, (state) => {
 				state.songs = []
+			})
+			.addCase(deleteSong.fulfilled, (state, action) => {
+				state.songs = state.songs.filter(song => song.id !== action.payload)
+			
 			})
 	}
 })

@@ -25,4 +25,35 @@
         left: 50%;
         transform: translate(50%, 100%);
     }
+
+    .checkbox {
+        width: 0rem;
+        padding: 0 0 0 0.8rem;
+
+        & span {
+            padding: 0;
+        }
+
+        & svg {
+            width: 1.3rem;
+        }
+    }
+}
+
+.action-bar {
+    display: flex;
+    justify-content: space-between;
+
+    .delete-btn {
+        padding: 0;
+        justify-self: flex-end;
+        color: var(--brand-clr);
+
+        &:hover {
+            background-color: black;
+            color: white;
+            transition: color 1.5s;
+            transition: background-color 1.5s;
+        }
+    }
 }
