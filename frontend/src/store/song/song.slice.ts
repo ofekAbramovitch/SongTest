@@ -36,19 +36,11 @@ const songsSlice = createSlice({
 		builder.addCase(getSongs.fulfilled, (state, action) => {
 			state.songs = action.payload
 		})
-			.addCase(getSongs.pending, (state) => {
-				state.songs = []
-			})
-			.addCase(getSongs.rejected, (state) => {
-				state.songs = []
-			})
 			.addCase(deleteSong.fulfilled, (state, action) => {
 				state.songs = state.songs.filter(song => song.id !== action.payload)
-			
 			})
 	}
 })
 
 export const songActions = songsSlice.actions
-
 export default songsSlice.reducer

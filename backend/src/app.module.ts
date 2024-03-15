@@ -22,8 +22,7 @@ import { SongModule } from './api/song/song.module'
 			autoLoadEntities: true,
 			synchronize: true,
 			ssl: {
-				ca: fs.readFileSync(path.join(__dirname, '..','ca.pem')).toString(),
-			
+				ca: fs.readFileSync(path.join(__dirname, '..', 'ca.pem')).toString(),
 			},
 		})],
 })

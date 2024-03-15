@@ -5,7 +5,6 @@ transforms it into lowercase letters and saves it into a database. Then, all son
 from the database is displayed in a table ordered by the band name.
 This program allows users to delete, filter and sort songs by any property in the table. 
 
-
 ## Technologies Used
 
 - **Frontend**: React, Typescript, Redux, SCSS, MUI.

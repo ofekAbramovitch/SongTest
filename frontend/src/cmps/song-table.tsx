@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { RootState } from "../store/store"
 import { Checkbox, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel } from "@mui/material"
 import DeleteIcon from '@mui/icons-material/Delete'
 import { ISong } from "../interfaces/song-interface"
 import { deleteSong } from "../store/song/song.slice"
 import SongFilter from "./song-filter"
+import { RootState } from "../store/store"
 import { AppDispatch } from "../store/store"
 
 interface Props {
@@ -66,7 +66,7 @@ export default function SongTable({ songs }: Props) {
                 )}
             </section>
             <TableContainer component={Paper} className="table-container">
-                <Table stickyHeader sx={{ minWidth: 400 }} aria-label="simple table" >
+                <Table stickyHeader sx={{ minWidth: 400 }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
                             <TableCell />

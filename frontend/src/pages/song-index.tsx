@@ -4,7 +4,6 @@ import { Action, ThunkDispatch } from "@reduxjs/toolkit"
 import { RootState } from "../store/store"
 import { getSongs } from "../store/song/song.slice"
 import SongTable from "../cmps/song-table"
-import SongFilter from "../cmps/song-filter"
 
 type Dispatch = ThunkDispatch<RootState, undefined, Action>
 
